@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import static java.nio.file.StandardOpenOption.CREATE;
 
@@ -25,20 +26,24 @@ public class PersonReader {
                 InputStream in = new BufferedInputStream(Files.newInputStream(file, CREATE));
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                System.out.printf("\n%-11s %-11s %-11s %-11s\n", "ID", "Name", "Description", "Cost");
-                System.out.println("======================================================");
+
                 int line = 0;
+                ArrayList<Person> personList = new ArrayList<>();
                 while (reader.ready()) {
                     record = reader.readLine();
                     line++;
                     String[] recordArray = record.split(",");
-                    for (int i = 0; i < recordArray.length; i++) {
-                        System.out.printf("%-12s", recordArray[i]);
-                    }
-                    System.out.println("\n");
+                    Person tempPerson = new Person(recordArray[1], recordArray[2], recordArray[0], recordArray[3], Integer.parseInt(recordArray[4]));
+                    personList.add(tempPerson);
                 }
-
                 reader.close();
+                System.out.printf("\n%-8s %-11s %-11s %-10s %s\n", "ID", "First Name", "Last Name","Title", "YOB");
+                System.out.println("======================================================");
+
+                for (int i = 0; i < personList.size(); i++) {
+                    Person tempPerson = personList.get(i);
+                    System.out.printf("%-10s %-10s %-10s %-10s %-10d\n", tempPerson.getId(), tempPerson.getFirstName(), tempPerson.getLastName(), tempPerson.getTitle(), tempPerson.getYob());
+                }
                 System.out.println("\n\nFile Read.");
             }
         } catch (FileNotFoundException e) {

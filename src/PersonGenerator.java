@@ -22,7 +22,8 @@ public class PersonGenerator {
             String title = SafeInput.getNonZeroLenString(tempScanner, "Title");
             String yob = SafeInput.getNonZeroLenString(tempScanner, "Year of Birth");
 
-            personArrayList.add(id + "," + firstName + "," + lastName + "," + title + "," + yob);
+            Person tempPerson = new Person(firstName, lastName, id, title, Integer.parseInt(yob));
+            personArrayList.add(tempPerson.toCSVDataRecord());
             YN = SafeInput.getYNConfirm(tempScanner, "Would you like to add another record?");
 
         } while(YN);
